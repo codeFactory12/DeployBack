@@ -9,7 +9,7 @@ export const getBoardlist = async (req, res) => {
     }
   })
   try {
-    const [results] = await pool.query('SELECT * FROM boardlists')
+    const [results] = await pool.query('SELECT * FROM boardLists')
     res.json(results)
   } catch (error) {
     return res.status(500).json({ message: error.message })
@@ -18,7 +18,7 @@ export const getBoardlist = async (req, res) => {
 
 export const getBoardlistid = async (req, res) => {
   try {
-    const [results] = await pool.query('SELECT * FROM boardlists WHERE id = ?', [req.params.id])
+    const [results] = await pool.query('SELECT * FROM boardLists WHERE id = ?', [req.params.id])
     if (results.length === 0) return res.status(404).json({ message: 'Task not found' })
     res.json(results[0])
   } catch (error) {
@@ -29,7 +29,7 @@ export const getBoardlistid = async (req, res) => {
 export const postBoardlist = async (req, res) => {
   try {
     const { listtitle, numtask } = req.body
-    const [results] = await pool.query('INSERT INTO boardlists(listtitle, numtask) VALUES (?, ?)', [listtitle, numtask])
+    const [results] = await pool.query('INSERT INTO boardLists(listtitle, numtask) VALUES (?, ?)', [listtitle, numtask])
     res.json({
       id: results.insertId,
       listtitle,
@@ -42,7 +42,7 @@ export const postBoardlist = async (req, res) => {
 
 export const deleteBoardlist = async (req, res) => {
   try {
-    const [result] = await pool.query('DELETE FROM boardlists WHERE id = ?', [req.params.id])
+    const [result] = await pool.query('DELETE FROM boardLists WHERE id = ?', [req.params.id])
     if (result.affectedRows === 0) return res.status(404).json({ message: 'Tasks not found' })
     return res.sendStatus(204)
   } catch (error) {
@@ -52,7 +52,7 @@ export const deleteBoardlist = async (req, res) => {
 
 export const putBoardlist = async (req, res) => {
   try {
-    const result = await pool.query('UPDATE boardlists SET ? WHERE id = ?', [req.body, req.params.id])
+    const result = await pool.query('UPDATE boardLists SET ? WHERE id = ?', [req.body, req.params.id])
     res.json(result)
   } catch (error) {
     return res.status(500).json({ message: error.message })
